@@ -1,0 +1,15 @@
+# Folders
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+
+# Files
+.env
+private-key.pem
+public-key.pem
+yarn.lock
+yarn-error.log
+
