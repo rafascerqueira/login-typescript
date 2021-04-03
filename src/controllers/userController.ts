@@ -5,10 +5,12 @@ import { sign } from "../services/token";
 import bcrypt from "bcrypt";
 
 class UserController {
-  async index(request: Request, response: Response) {
+  async index(_: Request, response: Response) {
     const userRepository = getCustomRepository(UserRepository);
 
-    const userList = await userRepository.find();
+    const userList = await userRepository.find({
+      select: ["id", "name", "role"],
+    });
 
     return response.json(userList);
   }
@@ -60,21 +62,28 @@ class UserController {
   }
 
   async findOneById(request: Request, response: Response) {
-    // Oops! it's too late to code now. Sleep and enjoy
-    const { id } = request.params;
+    const id = request.params;
 
-    response.json({
-      id: `c4129485-1385-4584-8270-${id}`,
-      name: "User Test",
-      email: "usertest@email.com",
-      role: "user",
-      created_at: "2021-03-20T19:49:23.476Z",
-      updated_at: "2021-03-20T19:49:23.476Z",
+    if (!id)
+      return response
+        .status(400)
+        .json({ idWasNotProvided: "Missing provide the user id" });
+
+    const userRepository = getCustomRepository(UserRepository);
+    const user = await userRepository.find({
+      select: ["name", "role"],
+      where: id,
     });
-    // fin
+
+    if (!user)
+      return response
+        .status(404)
+        .json({ userNotFound: "Cannot find user with id informed" });
+
+    return response.json(user);
   }
 
-  async welcome(request: Request, response: Response) {
+  async welcome(_: Request, response: Response) {
     return response.send({ message: "Welcome to Login system!" });
   }
 }

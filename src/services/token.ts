@@ -3,7 +3,7 @@ import { User } from "../models/User";
 import crypto from "../config/cryptogram";
 
 const sign = (user: User) => {
-  const payload = { id: user.id, name: user.name, role: user.role };
+  const payload = { id: user.id, role: user.role };
   return jwt.sign(payload, crypto.jwt.privateKey, {
     algorithm: "RS256",
     expiresIn: "30m",
