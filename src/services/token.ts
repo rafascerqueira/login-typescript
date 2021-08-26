@@ -6,11 +6,11 @@ const sign = (user: User) => {
   const payload = { id: user.id, role: user.role };
   return jwt.sign(payload, crypto.jwt.privateKey, {
     algorithm: "RS256",
-    expiresIn: "30m",
+    expiresIn: "15m",
   });
 };
 
-const decode = (token: string) => jwt.decode(token);
+const decode = (token: string): any => jwt.decode(token);
 
 const verify = (token: string) =>
   jwt.verify(token, crypto.jwt.publicKey, (err: any, data: any) => {

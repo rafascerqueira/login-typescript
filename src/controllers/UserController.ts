@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../repositories/UserRepository";
 import { sign } from "../services/token";
+import { createRefreshTokenData } from "../services/refreshToken";
 import bcrypt from "bcrypt";
 
 class UserController {
@@ -37,7 +38,7 @@ class UserController {
 
     const userRepository = getCustomRepository(UserRepository);
     const user = await userRepository.findOne({ email });
-    const userPswd = await getCustomRepository(UserRepository)
+    const hiddenParam = await getCustomRepository(UserRepository)
       .createQueryBuilder("users")
       .select("users.password")
       .addSelect("users.password")
@@ -45,13 +46,15 @@ class UserController {
       .getOne();
 
     if (user) {
-      const isMatch = await bcrypt.compare(password, userPswd.password);
+      const isMatch = await bcrypt.compare(password, hiddenParam.password);
 
       if (isMatch) {
         const token = sign(user);
+        const refreshToken = await createRefreshTokenData(token);
         return response.json({
           success: `Welcome back ${user.name}`,
           token,
+          refreshToken,
         });
       } else {
         return response.status(401).json({ loginFail: "invalid password" });

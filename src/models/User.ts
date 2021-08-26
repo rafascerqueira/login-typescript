@@ -6,10 +6,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
 import crypto from "../config/cryptogram";
-
 import bcrypt from "bcrypt";
+
+import { RefreshToken } from "./RefreshToken";
 
 @Entity("users")
 class User {
@@ -33,6 +35,9 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
+  refreshTokens: RefreshToken[];
 
   @BeforeInsert()
   @BeforeUpdate()
