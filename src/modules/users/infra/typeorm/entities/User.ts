@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from "typeorm";
-import crypto from "../config/cryptogram";
+import crypto from "@config/cryptogram";
 import bcrypt from "bcrypt";
 
 import { RefreshToken } from "./RefreshToken";

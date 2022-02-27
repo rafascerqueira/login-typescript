@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from "typeorm";
 
-import { User } from "../models/User";
+import { User } from "./User";
 
 @Entity("refresh_tokens")
 class RefreshToken {

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/User";
-import crypto from "../config/cryptogram";
+import { User } from "@modules/users/infra/typeorm/entities/User";
+import crypto from "@config/cryptogram";
 
 const sign = (user: User) => {
   const payload = { id: user.id, role: user.role };

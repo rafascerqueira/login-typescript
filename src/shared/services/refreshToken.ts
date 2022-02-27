@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import { decode } from "../services/token";
 import { getCustomRepository } from "typeorm";
-import { UserRepository } from "../repositories/UserRepository";
-import { RefreshTokenRepository } from "../repositories/RefreshTokenRepository";
-import { User } from "../models/User";
+import { UserRepository } from "@repositories/UserRepository";
+import { RefreshTokenRepository } from "@repositories/RefreshTokenRepository";
+import { User } from "@modules/users/infra/typeorm/entities/User";
 
 interface IRefreshToken {
   user: User;

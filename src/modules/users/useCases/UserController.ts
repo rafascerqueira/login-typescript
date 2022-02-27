@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
-import { UserRepository } from "../repositories/UserRepository";
-import { sign } from "../services/token";
-import { createRefreshTokenData } from "../services/refreshToken";
+import { UserRepository } from "@repositories/UserRepository";
+import { sign } from "@shared/services/token";
+import { createRefreshTokenData } from "@shared/services/refreshToken";
 import bcrypt from "bcrypt";
 
 class UserController {

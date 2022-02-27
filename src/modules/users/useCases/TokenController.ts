@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
-import { RefreshTokenRepository } from "../repositories/RefreshTokenRepository";
-import { UserRepository } from "../repositories/UserRepository";
-import { createRefreshTokenData } from "../services/refreshToken";
+import { RefreshTokenRepository } from "@repositories/RefreshTokenRepository";
+import { UserRepository } from "@repositories/UserRepository";
+import { createRefreshTokenData } from "@shared/services/refreshToken";
 
 class TokenController {
   async generateRefreshToken(request: Request, response: Response) {
