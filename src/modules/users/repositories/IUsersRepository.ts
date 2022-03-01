@@ -1,4 +1,3 @@
-import { IAuthenticateUserDTO } from "../dtos/IAuthenticateUserDTO";
 import { ICreateUserDTO } from "../dtos/ICreateUserDTO";
 import { User } from "../infra/typeorm/entities/User";
 

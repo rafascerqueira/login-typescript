@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
-import { RefreshToken } from "@modules/users/infra/typeorm/entities/RefreshToken";
+import { UserTokens } from "@modules/users/infra/typeorm/entities/UserTokens";
 
-@EntityRepository(RefreshToken)
-class RefreshTokenRepository extends Repository<RefreshToken> {}
+@EntityRepository(UserTokens)
+class RefreshTokenRepository extends Repository<UserTokens> {}
 
 export { RefreshTokenRepository };

@@ -1,15 +1,23 @@
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
 import { User } from "@modules/users/infra/typeorm/entities/User";
 import { IUsersRepository } from "../IUsersRepository";
-import crypto from "@config/cryptogram";
-import bcrypt from "bcrypt";
+import { v4 as uuidV4 } from "uuid";
 
 export class InMemoryUsersRepository implements IUsersRepository {
   private users: User[] = [];
 
   async create(data: ICreateUserDTO): Promise<User> {
     const user = new User();
-    Object.assign(user, data);
+
+    const defaultData = {
+      id: uuidV4(),
+      ...data,
+      role: "user",
+      created_at: Date.now(),
+      updated_at: Date.now(),
+    };
+
+    Object.assign(user, defaultData);
     this.users.push(user);
 
     return user;

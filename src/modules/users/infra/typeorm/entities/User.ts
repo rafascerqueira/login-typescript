@@ -6,15 +6,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
 } from "typeorm";
 import crypto from "@config/cryptogram";
 import bcrypt from "bcrypt";
 
-import { RefreshToken } from "./RefreshToken";
-
 @Entity("users")
-class User {
+export class User {
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
@@ -36,9 +33,6 @@ class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
-  refreshTokens: RefreshToken[];
-
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword(): Promise<void> {
@@ -47,5 +41,3 @@ class User {
     }
   }
 }
-
-export { User };

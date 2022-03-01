@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { InMemoryUsersRepository } from "@modules/users/repositories/in-memory/InMemoryUsersRepository";
 import { AuthenticateUserUseCase } from "@modules/users/useCases/AuthenticateUserUseCase";
 import { CreateUserUseCase } from "@modules/users/useCases/CreateUserUseCase";
+import { AppError } from "@shared/errors/AppError";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let authenticateUserUseCase: AuthenticateUserUseCase;
@@ -30,8 +31,15 @@ describe("Authenticate User", () => {
       password: "tungs",
     });
 
-    console.log(login);
-
     expect(login).toBeTruthy();
+  });
+
+  it("Should not be able to Sign in without a valid credentials", async () => {
+    expect(async () => {
+      await authenticateUserUseCase.execute({
+        email: "usertest@email.com",
+        password: "Puntz",
+      });
+    }).rejects.toBeInstanceOf(AppError);
   });
 });

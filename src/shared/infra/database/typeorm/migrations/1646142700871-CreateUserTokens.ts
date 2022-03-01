@@ -1,17 +1,12 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateRefreshToken1629418729775 implements MigrationInterface {
+export class CreateUserTokens1646142700871 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
     await queryRunner.createTable(
       new Table({
-        name: "refresh_tokens",
+        name: "user_tokens",
         columns: [
           {
             name: "id",
@@ -21,16 +16,15 @@ export class CreateRefreshToken1629418729775 implements MigrationInterface {
             default: "uuid_generate_v4()",
           },
           {
-            name: "user",
+            name: "refresh_token",
             type: "varchar",
           },
           {
-            name: "valid",
-            type: "boolean",
-            default: "true",
+            name: "user_id",
+            type: "varchar",
           },
           {
-            name: "expires_in",
+            name: "expires_date",
             type: "timestamp",
           },
           {
@@ -44,21 +38,21 @@ export class CreateRefreshToken1629418729775 implements MigrationInterface {
             default: "now()",
           },
         ],
-      })
-    );
-
-    await queryRunner.createForeignKey(
-      "refresh_tokens",
-      new TableForeignKey({
-        columnNames: ["user"],
-        referencedTableName: "users",
-        referencedColumnNames: ["id"],
-        onDelete: "CASCADE",
+        foreignKeys: [
+          {
+            name: "FKUserTokens",
+            referencedTableName: "users",
+            referencedColumnNames: ["id"],
+            columnNames: ["user_id"],
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+          },
+        ],
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropDatabase("refresh_tokens");
+    await queryRunner.dropTable("user_tokens");
   }
 }
